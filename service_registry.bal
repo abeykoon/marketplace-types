@@ -6,7 +6,7 @@ service /registry on new http:Listener(config:servicePort) {
 
     }
 
-    resource function get services/[string serviceId] () returns ServiceVersion
+    resource function get services/[string serviceId]() returns ServiceVersion
                 |http:NotFound|http:InternalServerError|http:Forbidden {
 
     }
@@ -26,20 +26,35 @@ service /registry on new http:Listener(config:servicePort) {
 
     }
 
-    resource function get services/tags () returns TagInfo[]|http:InternalServerError {
+    resource function post services/[string serviceId]/icon(http:Request request) returns http:Ok
+                |http:NotFound|http:InternalServerError {
 
     }
 
-    resource function get services/categories () returns CategoryInfo[]|http:InternalServerError {
+    resource function put services/[string serviceId]/icon(http:Request request) returns http:Ok
+                |http:NotFound|http:InternalServerError {
 
     }
 
-    resource function get services/[string serviceId]/idl () returns IDL
-            |http:NotFoundError|http:InternalServerError {
+    resource function delete services/[string serviceId]/icon(http:Request request) returns http:Ok
+                |http:NotFound|http:InternalServerError {
 
     }
 
-    resource function post services/[string serviceId]/idl (http:Request request) returns http:Created
+    resource function get services/tags() returns TagInfo[]|http:InternalServerError {
+
+    }
+
+    resource function get services/categories() returns CategoryInfo[]|http:InternalServerError {
+
+    }
+
+    resource function get services/[string serviceId]/idl() returns IDL
+            |http:NotFound|http:InternalServerError {
+
+    }
+
+    resource function post services/[string serviceId]/idl(http:Request request) returns http:Created
             |http:InternalServerError|http:BadRequest {
     }
 
@@ -51,7 +66,21 @@ service /registry on new http:Listener(config:servicePort) {
 
     }
 
-    resource function get services/[string serviceId]/attachments/[string attachmentId]() returns Attachment {
+    resource function get services/[string serviceId]/attachments() returns Attachment[]|http:InternalServerError {
+
+    }
+
+    resource function get services/[string serviceId]/attachments/[string attachmentId]() returns Attachment|http:InternalServerError|http:NotFound {
+
+    }
+    resource function post services/[string serviceId]/attachments(@http:Payload Attachment attachment) returns Attachment|http:InternalServerError|http:BadRequest {
+
+    }
+    resource function put services/[string serviceId]/attachments/[string attachmentId](@http:Payload Attachment attachment) returns Attachment|http:InternalServerError|http:BadRequest|http:NotFound {
+
+    }
+
+    resource function delete services/[string serviceId]/attachments/[string attachmentId]() returns http:Ok|http:InternalServerError|http:NotFound {
 
     }
 
