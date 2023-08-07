@@ -1,6 +1,6 @@
 public type ServiceRequest record {
     string name;
-    string version;
+    string 'version;
     ServiceType 'type;
     boolean isThirdparty;
     string summary?;
@@ -14,7 +14,7 @@ public type ServiceRequest record {
 public type ServiceInfo record {
     string id;
     string name;
-    string version;
+    string 'version;
     ServiceStatus status;
     ServiceType 'type;
     string summary?;
@@ -35,7 +35,7 @@ public type Service record {
 };
 
 public type VersionMetadata record {
-    string version;
+    string 'version;
     string serviceId;
 };
 
