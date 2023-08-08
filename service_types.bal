@@ -1,4 +1,4 @@
-public type ServiceRequest record {
+public type ServiceRequest record {|
     string name;
     string version;
     ServiceType 'type;
@@ -9,9 +9,9 @@ public type ServiceRequest record {
     string[] categories?;
     ServiceVisibility visibility;
     ConnectionSchemaInfo[] connectionSchemas;
-};
+|};
 
-public type ServiceInfo record {
+public type ServiceInfo record {|
     string id;
     string name;
     string version;
@@ -27,46 +27,46 @@ public type ServiceInfo record {
     AttachmentSummary[] attachments?;
     float averageRating;
     string createdTime;
-};
+|};
 
-public type Service record {
+public type Service record {|
     ServiceVersion latestVersion;
     VersionMetadata[] versions;
-};
+|};
 
-public type VersionMetadata record {
+public type VersionMetadata record {|
     string version;
     string serviceId;
-};
+|};
 
-public type ChoreoService record {
+public type ChoreoService record {|
     *ServiceInfo;
     ChoreoComponent component;
-};
+|};
 
-public type ThirdPartyService record {
+public type ThirdPartyService record {|
     *ServiceInfo;
-};
+|};
 
 public type ServiceVersion ChoreoService|ThirdPartyService;
 
-public type ConnectionSchema record {
+public type ConnectionSchema record {|
     string id;
     *ConnectionSchemaInfo;
-};
+|};
 
-public type ConnectionSchemaInfo record {
+public type ConnectionSchemaInfo record {|
     string name;
     string description;
     boolean isDefault;
     ConnectionSchemaEntry[] entries;
-};
+|};
 
-public type ConnectionSchemaEntry record {  //are these updated by the user after creation? At least keeping backward compatibility?
+public type ConnectionSchemaEntry record {|  //are these updated by the user after creation? At least keeping backward compatibility?
     string name;
     string 'type;
     string description?;
-};
+|};
 
 # Choreo component info of a marketplace resource.
 #
@@ -108,18 +108,18 @@ public type IDL record {|
     IDLType idlType;
 |};
 
-public type Attachment record {
+public type Attachment record {|
     string id;
     string serviceId;
     string name;
     string mimeType;
     byte[] content;
-};
+|};
 
-public type AttachmentSummary record {
+public type AttachmentSummary record {|
     string id;
     string name;
-};
+|};
 
 # Types of Interface Definition Languages associated
 # with APIs hosted and served in Marketplace.
@@ -195,29 +195,29 @@ public type CategoryInfo record {|
 #
 # + ratedBy - User who is rating the resource
 # + rating - Rating value given by the user
-public type RatingRequest record {
+public type RatingRequest record {|
     string ratedBy;
     int rating;
-};
+|};
 
-public type ComponentVisibility record {
+public type ComponentVisibility record {|
     string visibility = "Component";
     string componentId;
-};
+|};
 
-public type projectVisibility record {
+public type projectVisibility record {|
     string visibility = "Project";
     string projectId;
-};
+|};
 
-public type OrgVisibility record {
+public type OrgVisibility record {|
     string visibility = "Organization";
     string orgId;
-};
+|};
 
-public type PublicVisibility record {
+public type PublicVisibility record {|
     string visibility = "Public";
-};
+|};
 
 # Defines marketplace visibility of services (who can discover).
 public type ServiceVisibility OrgVisibility|projectVisibility|PublicVisibility;
