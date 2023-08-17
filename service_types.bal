@@ -1,34 +1,53 @@
 
-public type ServiceRequest record {|
+public type ResourceRequest record{|
     string name;
     string version;
-    ServiceType 'type;
-    Kind kind;
+    ResourceType resourceType;
     string organizationId;
     string projectId?;
     string summary?;
     string description?;
     string[] tags?;
-    string[] categories?;
     Visibility visibility;
+|};
+
+public type Resource record {|
+    string id;
+    *ResourceRequest;
+    string thumbnailUrl;
+    float averageRating;
+    string createdTime;
+|};
+
+public type ServiceRequest record {|
+    *ResourceRequest;
+    ServiceType serviceType;
+    boolean isThirdParty;
+    string[] categories?;
     ConnectionSchemaInfo[] connectionSchemas;
+    Endpoint[] endpoints?;      //optional, as we get one after we deploy
+|};
+
+public type ServiceResponse record {|
+    int count;
+    record {
+        int 'limit;
+        int total;
+        int offset;
+        string next;
+        string previous;
+    } pagination;
+    Service[] data;
 |};
 
 public type ServiceInfo record {|
-    string id;
-    string name;
-    string version;
+    *Resource;
     ServiceStatus status;
     ServiceType 'type;
-    string summary?;
-    string description?;
-    string[] tags?;
     string[] categories?;
-    string thumbnailUrl;
+    Endpoint[] endpoints?;
     ConnectionSchema[] connectionSchemas;
     AttachmentSummary[] attachments?;
-    float averageRating;
-    string createdTime;
 |};
 
 public type ChoreoService record {|
@@ -94,6 +113,12 @@ public type AttachmentSummary record {|
     string name;
 |};
 
+public type Endpoint record {|
+    string url;
+    string environment;
+    string description?;
+|};
+
 # Represents a tag associated with a marketplace resource.
 #
 # + tag - Tag name
@@ -112,6 +137,10 @@ public type CategoryInfo record {|
     int count;
 |};
 
+public enum ResourceType {
+    SERVICE
+};
+
 # Types of Interface Definition Languages associated
 # with APIs hosted and served in Marketplace.
 public enum IDLType {
@@ -129,11 +158,6 @@ public enum ServiceType {
     GRAPHQL,
     GRPC,
     ASYNC_API
-};
-
-public enum Kind {
-    CHOREO,
-    THIRD_PARTY
 };
 
 public enum ServiceStatus {

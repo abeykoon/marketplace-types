@@ -1,114 +1,121 @@
 import ballerina/http;
 import marketplace_types.config;
 
-service /service\-registry on new http:Listener(config:servicePort) {  //TODO: discuss api versioning
-    resource function get organizations/[string orgId]/services(
+service /service\-registry/v1 on new http:Listener(config:servicePort) {  //TODO: discuss api versioning
+    resource function get services(
         int 'limit = 20,
         int offset = 0,
-        string sort = "name,ASC",   //Sort by ratings, created date, project
+        string sort = "name,ASC",   //Sort by ratings, created date, project. All results are first sorted and then paginated.
         string? query = (),
+        boolean searchIDL = false,
         string? tags = (),
         string? categories = (),
         string? networkVisibilityFilter = "org",  //Possible values are "all", "project", "org", "public",
-        string? projectId = ()) returns Service[]|
+        string? networkVisibilityprojectId = ()) returns Service[]|
                 http:BadRequest|http:InternalServerError|http:Forbidden {
             return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function get organizations/[string orgId]/services/[string serviceId] () returns Service
+    resource function get services/[string serviceId] () returns Service
                 |http:NotFound|http:InternalServerError|http:Forbidden {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function post organizations/[string orgId]/services(@http:Payload ServiceRequest 'service) returns Service
+    resource function post services(@http:Payload ServiceRequest 'service) returns Service
             |http:Conflict|http:BadRequest|http:InternalServerError|http:Forbidden {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function put organizations/[string orgId]/services/[string serviceId](@http:Payload ServiceRequest 'service) returns Service
+    resource function put services/[string serviceId](@http:Payload ServiceRequest 'service) returns Service
             |http:BadRequest|http:NotFound|http:InternalServerError|http:Forbidden {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function delete organizations/[string orgId]/services/[string serviceId]() returns http:Ok
+    resource function delete services/[string serviceId]() returns http:Ok
                 |http:NotFound|http:InternalServerError|http:Forbidden {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function get organizations/[string orgId]/services/tags() returns TagInfo[]|http:InternalServerError {
+    resource function get services/tags() returns TagInfo[]|http:InternalServerError {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function get organizations/[string orgId]/services/categories() returns CategoryInfo[]|http:InternalServerError {
+    resource function get services/categories() returns CategoryInfo[]|http:InternalServerError {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function get organizations/[string orgId]/services/[string serviceId]/idl() returns IDL
+    resource function get services/[string serviceId]/idl() returns IDL
             |http:NotFound|http:InternalServerError {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function post organizations/[string orgId]/services/[string serviceId]/idl(http:Request request) returns http:Created
+    resource function post services/[string serviceId]/idl(http:Request request) returns http:Created
             |http:InternalServerError|http:BadRequest {   //IDL Type?
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function put organizations/[string orgId]/services/[string serviceId]/idl(http:Request request) returns http:Ok
+    resource function put services/[string serviceId]/idl(http:Request request) returns http:Ok
             |http:InternalServerError|http:BadRequest {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function post organizations/[string orgId]/services/[string serviceId]/connection\-schemas(ConnectionSchemaInfo[] connectionSchema) returns http:Created
+    resource function post services/[string serviceId]/connection\-schemas(ConnectionSchemaInfo[] connectionSchema) returns http:Created
     |http:InternalServerError|http:BadRequest {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function put organizations/[string orgId]/services/[string serviceId]/connection\-schemas/[string schemaId](ConnectionSchemaInfo connectionSchema) returns http:Created
+    resource function put services/[string serviceId]/connection\-schemas/[string schemaId](ConnectionSchemaInfo connectionSchema) returns http:Created
     |http:InternalServerError|http:BadRequest {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function post organizations/[string orgId]/services/[string serviceId]/icon(http:Request request) returns http:Ok
+    resource function post services/[string serviceId]/icon(http:Request request) returns http:Ok
                 |http:NotFound|http:InternalServerError {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function put organizations/[string orgId]/services/[string serviceId]/icon(http:Request request) returns http:Ok
+    resource function put services/[string serviceId]/icon(http:Request request) returns http:Ok
                 |http:NotFound|http:InternalServerError {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function post organizations/[string orgId]/services/[string serviceId]/rating(int rating) returns float {
+    resource function post services/[string serviceId]/rating(int rating) returns float {
         return 0;
     }
 
-    resource function get organizations/[string orgId]/services/[string serviceId]/attachments/[string attachmentId]() returns http:Response
+    resource function get services/[string serviceId]/attachments/[string attachmentId]() returns http:Response
             |http:InternalServerError|http:NotFound {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function post organizations/[string orgId]/services/[string serviceId]/attachments(http:Request request) returns AttachmentSummary[]
+    resource function post services/[string serviceId]/attachments(http:Request request) returns AttachmentSummary[]
             |http:InternalServerError|http:BadRequest {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function post organizations/[string orgId]/services/[string serviceId]/attachments/[string attachmentId](http:Request request) returns AttachmentSummary[]
+    resource function post services/[string serviceId]/attachments/[string attachmentId](http:Request request) returns AttachmentSummary[]
             |http:InternalServerError|http:BadRequest {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function delete organizations/[string orgId]/services/[string serviceId]/attachments/[string attachmentId]() returns http:Ok
+    resource function delete services/[string serviceId]/attachments/[string attachmentId]() returns http:Ok
             |http:InternalServerError|http:NotFound {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function put organizations/[string orgId]/services/[string serviceId]/status(string status) returns http:Ok
+    resource function put services/[string serviceId]/status(string status) returns http:Ok
             |http:InternalServerError|http:BadRequest {
         return http:INTERNAL_SERVER_ERROR;
     }
 
-    resource function get organizations/[string orgId]/services/[string serviceId]/connection\-schemas/[string connetionSchemaId]()
+    resource function get services/[string serviceId]/connection\-schemas/[string connetionSchemaId]()
      returns ConnectionSchemaInfo|http:InternalServerError|http:NotFound {
+        return http:INTERNAL_SERVER_ERROR;
+    }
+
+    //edit endpoint
+    resource function post services/[string serviceId]/endpoints(Endpoint endpoint) returns http:Ok
+            |http:InternalServerError|http:BadRequest {
         return http:INTERNAL_SERVER_ERROR;
     }
 
