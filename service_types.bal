@@ -1,5 +1,4 @@
-
-public type ResourceRequest record{|
+public type ResourceRequest record {
     string name;
     string version;
     ResourceType resourceType;
@@ -8,35 +7,43 @@ public type ResourceRequest record{|
     string summary?;
     string description?;
     string[] tags?;
+    string[] categories?;
     Visibility visibility;
-|};
+};
 
-public type Resource record {|
+public type Resource record {
     string id;
     *ResourceRequest;
     string thumbnailUrl;
     float averageRating;
     string createdTime;
+};
+
+public type Pagination record {|
+    int 'limit;
+    int total;
+    int offset;
+    string next;
+    string previous;
 |};
 
 public type ServiceRequest record {|
     *ResourceRequest;
     ServiceType serviceType;
     boolean isThirdParty;
-    string[] categories?;
     ConnectionSchemaInfo[] connectionSchemas;
     Endpoint[] endpoints?;      //optional, as we get one after we deploy
 |};
 
+public type ResourceResponse record {|
+    int count;
+    Pagination pagination;
+    Resource[] data;
+|};
+
 public type ServiceResponse record {|
     int count;
-    record {
-        int 'limit;
-        int total;
-        int offset;
-        string next;
-        string previous;
-    } pagination;
+    Pagination pagination;
     Service[] data;
 |};
 
@@ -44,7 +51,6 @@ public type ServiceInfo record {|
     *Resource;
     ServiceStatus status;
     ServiceType 'type;
-    string[] categories?;
     Endpoint[] endpoints?;
     ConnectionSchema[] connectionSchemas;
     AttachmentSummary[] attachments?;
